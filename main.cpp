@@ -1,5 +1,5 @@
 #include <iostream>
-#include "redBlackTreeItem.hh"
+#include "redBlackTree.hh"
 
 using namespace std;
 using namespace redBlackTrees;
@@ -9,12 +9,23 @@ using namespace redBlackTrees;
 
 void test_one (){
     cout << "creando root" << endl;
-    redBlackTreeItem* root  = new redBlackTreeItem(4);
-    cout << "root creado" << endl;
-    root->assign_left(*(new redBlackTreeItem(3)));
-    root->assign_right(*(new redBlackTreeItem(5)));
+    redBlackTree<int> tree{};
 
+    cout << "tree created" << endl;
 
+    cout << "Is root null? :" << tree.is_root_null() << std::endl;
+
+    tree.insert(1);
+    tree.insert(3);
+    tree.insert(2);
+    tree.insert(5);
+    tree.insert(4);
+
+    tree.print_in_order();
+
+    tree.test_rotate(3);
+
+/*
 
     root->print_in_order();
 
@@ -59,35 +70,21 @@ void test_one (){
 
 
 
-    cout << "Impreso correcto" << endl;
+    cout << "Impreso correcto" << endl;*/
 
 }
 
 int main() {
-    cout << "Iniciando insert con fixup " << endl;
+    test_one();
+    /*cout << "Iniciando insert con fixup " << endl;
 
     cout <<"Creando root " << endl;
 
-    redBlackTreeItem *root= new redBlackTreeItem(1);
+    redBlackTree *root= new redBlackTree(1);
 
 
-    root->insert(*(new redBlackTreeItem(2)));
-    root->insert(*(new redBlackTreeItem(3)));
-
-
-
-    cout << "obteniendo nuevo root :" <<endl;
-    cout << "Root original " << root->get_value() << endl;
-    root =root->get_root();
-    cout << "Nuevo Root :" << root->get_value() << endl;
-
-    root->print_pre_order();
-
-    root = root->insert(*(new redBlackTreeItem(7)));
-    root = root->insert(*(new redBlackTreeItem(9)));
-    root = root->insert(*(new redBlackTreeItem(10)));
-    root = root->insert(*(new redBlackTreeItem(11)));
-    root = root->insert(*(new redBlackTreeItem(13)));
+    root->insert(*(new redBlackTree(2)));
+    root->insert(*(new redBlackTree(3)));
 
 
 
@@ -98,20 +95,35 @@ int main() {
 
     root->print_pre_order();
 
+    root = root->insert(*(new redBlackTree(7)));
+    root = root->insert(*(new redBlackTree(9)));
+    root = root->insert(*(new redBlackTree(10)));
+    root = root->insert(*(new redBlackTree(11)));
+    root = root->insert(*(new redBlackTree(13)));
 
+
+
+    cout << "obteniendo nuevo root :" <<endl;
+    cout << "Root original " << root->get_value() << endl;
+    root =root->get_root();
+    cout << "Nuevo Root :" << root->get_value() << endl;
+
+    root->print_pre_order();
+
+*/
 
 /*
     cout << "Test de asignación y reasignación " << endl;
 
-    redBlackTreeItem *three = new redBlackTreeItem(3);
-    redBlackTreeItem *two = new redBlackTreeItem(2);
+    redBlackTree *three = new redBlackTree(3);
+    redBlackTree *two = new redBlackTree(2);
     root->assign_right(*three);
     three->assign_left(*two);
 
     cout << "rotando " << endl;
     three->right_rotate();
-    //root->insert(*(new redBlackTreeItem(3)));
-    //root->insert(*(new redBlackTreeItem(2)));
+    //root->insert(*(new redBlackTree(3)));
+    //root->insert(*(new redBlackTree(2)));
     root->print_pre_order();*/
 
 

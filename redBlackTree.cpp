@@ -3,15 +3,16 @@
 //
 
 #include <iostream>
-#include "redBlackTreeItem.hh"
+#include "redBlackTree.hh"
 
 
 using namespace std;
 using namespace redBlackTrees;
 
-redBlackTreeItem::redBlackTreeItem(int i): value(i), left(nullptr), right(nullptr), parent(nullptr), color(RED) { }
+//redBlackTree::redBlackTree(int i): value(i), left(nullptr), right(nullptr), parent(nullptr), color(RED) { }
+/*
 
-void redBlackTreeItem::assign_left(redBlackTreeItem &l) {
+void redBlackTree::assign_left(redBlackTree &l) {
 
     if (left != nullptr) {
 
@@ -40,7 +41,7 @@ void redBlackTreeItem::assign_left(redBlackTreeItem &l) {
 
 
 
-void redBlackTreeItem::assign_right(redBlackTreeItem &r) {
+void redBlackTree::assign_right(redBlackTree &r) {
 
     if (right != nullptr) {
         right->parent = nullptr;
@@ -71,7 +72,7 @@ void redBlackTreeItem::assign_right(redBlackTreeItem &r) {
 }
 
 
-redBlackTreeItem *redBlackTreeItem::left_rotate() {
+redBlackTree *redBlackTree::left_rotate() {
 
     if (right== nullptr)
     {
@@ -79,9 +80,9 @@ redBlackTreeItem *redBlackTreeItem::left_rotate() {
         return this;
     }
 
-    redBlackTreeItem *p = (*this).parent;
-    redBlackTreeItem *r = (*this).right;
-    redBlackTreeItem *rl = r->left;
+    redBlackTree *p = (*this).parent;
+    redBlackTree *r = (*this).right;
+    redBlackTree *rl = r->left;
 
 
     if (p==nullptr)
@@ -108,7 +109,7 @@ redBlackTreeItem *redBlackTreeItem::left_rotate() {
     return p;
 }
 
-redBlackTreeItem *redBlackTreeItem::right_rotate() {
+redBlackTree *redBlackTree::right_rotate() {
 
     if (left== nullptr)
     {
@@ -116,9 +117,9 @@ redBlackTreeItem *redBlackTreeItem::right_rotate() {
         return this;
     }
 
-    redBlackTreeItem *p = (*this).parent;
-    redBlackTreeItem &l = *(*this).left;
-    redBlackTreeItem &lr= *l.right;
+    redBlackTree *p = (*this).parent;
+    redBlackTree &l = *(*this).left;
+    redBlackTree &lr= *l.right;
 
 
 
@@ -148,8 +149,8 @@ redBlackTreeItem *redBlackTreeItem::right_rotate() {
 }
 
 
-redBlackTreeItem* redBlackTreeItem::insert(redBlackTreeItem &newItem) {
-    redBlackTreeItem *y = nullptr;
+redBlackTree* redBlackTree::insert(redBlackTree &newItem) {
+    redBlackTree *y = nullptr;
     if (newItem.value < this->value )
     {
         if (this->left != nullptr) {
@@ -185,7 +186,7 @@ redBlackTreeItem* redBlackTreeItem::insert(redBlackTreeItem &newItem) {
 
 }
 
-redBlackTreeItem* redBlackTreeItem::get_root(){
+redBlackTree* redBlackTree::get_root(){
     if (this->parent== nullptr)
         return this;
     else
@@ -193,9 +194,9 @@ redBlackTreeItem* redBlackTreeItem::get_root(){
 
 }
 
-void redBlackTreeItem::insert_fix_up(redBlackTreeItem &newItem) {
-    redBlackTreeItem* z = &newItem;
-    redBlackTreeItem* y = nullptr;
+void redBlackTree::insert_fix_up(redBlackTree &newItem) {
+    redBlackTree* z = &newItem;
+    redBlackTree* y = nullptr;
     while (z->parent != nullptr && z->parent->color==RED)
     {
         if (z->parent->parent == nullptr) //two levels left, there is nothing more to do
@@ -262,7 +263,7 @@ void redBlackTreeItem::insert_fix_up(redBlackTreeItem &newItem) {
     this->get_root()->color=BLACK;
 }
 
-void redBlackTreeItem::print_in_order() {
+void redBlackTree::print_in_order() {
     if (left != nullptr)
         this->left->print_in_order();
     cout << "Value : " << this->value << " Color :" << this->color<< endl;
@@ -271,7 +272,7 @@ void redBlackTreeItem::print_in_order() {
 
 }
 
-void redBlackTreeItem::print_pre_order() {
+void redBlackTree::print_pre_order() {
     cout << "Value : " << this ->value << " color : " << this->color<< endl;
     if (left != nullptr) {
         cout << "left of " << this->value << endl;
@@ -286,7 +287,7 @@ void redBlackTreeItem::print_pre_order() {
 
 }
 
-void redBlackTreeItem::print_post_order() {
+void redBlackTree::print_post_order() {
 
 
 
@@ -301,15 +302,16 @@ void redBlackTreeItem::print_post_order() {
 }
 
 
-int redBlackTreeItem::get_value() {
+int redBlackTree::get_value() {
     return value;
 }
 
 
-void redBlackTreeItem::assign_node_as_red() {
+void redBlackTree::assign_node_as_red() {
 color=RED;
 }
 
-void redBlackTreeItem::assing_node_as_black() {
+void redBlackTree::assing_node_as_black() {
 color =BLACK;
 }
+*/
