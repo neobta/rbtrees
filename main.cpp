@@ -17,6 +17,9 @@ void test_one (){
 
     tree.insert(1);
     tree.insert(3);
+
+
+
     tree.insert(2);
     tree.insert(5);
     tree.insert(4);
@@ -24,6 +27,8 @@ void test_one (){
     tree.print_in_order();
 
     tree.test_rotate(3);
+    tree.test_rotate2(5);
+
 
 /*
 
