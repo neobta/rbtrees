@@ -15,8 +15,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8fa15307-2160-4b3e-b376-5f7945c1b2f2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.cpp" afterPath="$PROJECT_DIR$/main.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/redBlackTree.hh" afterPath="$PROJECT_DIR$/redBlackTree.hh" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="redBlackTreesDemo.iws" />
@@ -75,8 +73,8 @@
       <file leaf-file-name="redBlackTree.hh" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/redBlackTree.hh">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.27503973">
-              <caret line="490" column="0" selection-start-line="490" selection-start-column="0" selection-end-line="490" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.2003367">
+              <caret line="487" column="0" selection-start-line="487" selection-start-column="0" selection-end-line="487" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -219,7 +217,13 @@
       <option name="project" value="LOCAL" />
       <updated>1435438903049</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="RB trees with smart pointers &#10;rotate working&#10;and fixed assign removing old parent reference &#10;to node being assigned">
+      <created>1435631404518</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1435631404518</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView">
@@ -240,12 +244,12 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36206895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32435346" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33261803" sideWeight="0.501845" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32932165" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3286638" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34590518" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="1920" y="314" width="1920" height="455" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24934107" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32932165" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286638" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18022329" sideWeight="0.50569105" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29094827" sideWeight="0.49815497" order="3" side_tool="false" content_ui="tabs" x="1762" y="51" width="1897" height="278" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29094827" sideWeight="0.49815497" order="3" side_tool="false" content_ui="tabs" x="1762" y="51" width="1897" height="278" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -268,7 +272,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Red Black Trees no sentinel" />
-    <option name="LAST_COMMIT_MESSAGE" value="Red Black Trees no sentinel" />
+    <MESSAGE value="RB trees with smart pointers &#10;rotate working&#10;and fixed assign removing old parent reference &#10;to node being assigned" />
+    <option name="LAST_COMMIT_MESSAGE" value="RB trees with smart pointers &#10;rotate working&#10;and fixed assign removing old parent reference &#10;to node being assigned" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -698,8 +703,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/redBlackTree.hh">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.27503973">
-          <caret line="490" column="0" selection-start-line="490" selection-start-column="0" selection-end-line="490" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.2003367">
+          <caret line="487" column="0" selection-start-line="487" selection-start-column="0" selection-end-line="487" selection-end-column="0" />
           <folding />
         </state>
       </provider>
