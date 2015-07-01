@@ -16,10 +16,6 @@ namespace redBlackTrees {
 
     class redBlackTree {
 
-
-
-
-
         enum red_black_tree_color {
             BLACK, RED
         };
@@ -27,14 +23,14 @@ namespace redBlackTrees {
     private:
 
         class redBlackTreeNode {
-            red_black_tree_color color;
+           
             T value;
 
 
         public:
 
             //typedef std::shared_ptr<redBlackTrees::redBlackTree<T>::redBlackTreeNode> node_ptr;
-
+			red_black_tree_color color;
 
             redBlackTreeNode(T i);
             ~redBlackTreeNode();
@@ -54,6 +50,8 @@ namespace redBlackTrees {
             void print_node_value();
 
 
+			
+
 
         };
 
@@ -61,10 +59,17 @@ namespace redBlackTrees {
         void left_rotate(std::shared_ptr<redBlackTreeNode> node);
         void right_rotate(std::shared_ptr<redBlackTreeNode> node);
 
-        auto find(std::shared_ptr<redBlackTreeNode> current_node, T item) -> decltype(current_node);
+		std::shared_ptr<redBlackTreeNode> find(std::shared_ptr<redBlackTreeNode> current_node, T item);// -> decltype(current_node);
 
-        /*void insert_fix_up(redBlackTree &newItem);*/
+		std::shared_ptr<redBlackTreeNode> get_minimum(std::shared_ptr<redBlackTreeNode> node);
 
+        void insert_fix_up(std::shared_ptr<redBlackTreeNode> newItem);
+
+		void delete_node(std::shared_ptr<redBlackTreeNode> deleteItem);
+		void transplant(std::shared_ptr<redBlackTreeNode> u, std::shared_ptr<redBlackTreeNode> v);
+
+
+		void delete_fix_up(std::shared_ptr<redBlackTreeNode> x,  std::shared_ptr<redBlackTreeNode> xparent);
 
     public:
 
@@ -74,30 +79,14 @@ namespace redBlackTrees {
 
         bool is_root_null();
         void insert(T n);
+		void remove(T n);
         void print_in_order();
         void print_pre_order();
-        void print_post_order();
-
-        void test_rotate(T item);
-        void test_rotate2(T item);
-
-
-        /*
-
-
-        redBlackTree* right_rotate();
-
-
-        int get_value();
-
-
-
-
-
-
-        void assign_node_as_red();
-        void assing_node_as_black();
-        redBlackTree* get_root();*/
+        void print_post_order();       
+		
+		
+		
+        
     };
 }
 
@@ -127,6 +116,12 @@ void redBlackTrees::redBlackTree<T>::redBlackTreeNode::assign_left(std::shared_p
         std::cout << "Left is null ptr" << std::endl;
     }
 
+
+	if (item==nullptr)
+	{
+		left = item;
+		return;
+	}
 
     //remove old parent
     auto op = item->parent.lock();
@@ -163,6 +158,11 @@ void redBlackTrees::redBlackTree<T>::redBlackTreeNode::assign_right(std::shared_
         std::cout << "right is null ptr" << std::endl;
     }
 
+	if (item == nullptr)
+	{
+		right = item;
+		return;
+	}
     //remove old parent
     auto op = item->parent.lock();
     if(op!= nullptr) {
@@ -195,7 +195,7 @@ void redBlackTrees::redBlackTree<T>::redBlackTreeNode::print_in_order()
     this->print_node_value();
 
     if (this->right!= nullptr)
-        right->print_node_value();
+		right->print_in_order();
 }
 
 
@@ -205,10 +205,10 @@ void redBlackTrees::redBlackTree<T>::redBlackTreeNode::print_pre_order()
 
     this->print_node_value();
     if (this->left!= nullptr)
-        left->print_in_order();
+		left->print_pre_order();
 
     if (this->right!= nullptr)
-        right->print_node_value();
+		right->print_pre_order();
 }
 
 
@@ -218,10 +218,10 @@ void redBlackTrees::redBlackTree<T>::redBlackTreeNode::print_post_order()
 
     this->print_node_value();
     if (this->left!= nullptr)
-        left->print_in_order();
+		left->print_post_order();
 
     if (this->right!= nullptr)
-        right->print_node_value();
+		right->print_post_order();
 }
 
 template<typename T>
@@ -229,6 +229,7 @@ void redBlackTrees::redBlackTree<T>::redBlackTreeNode::print_node_value()
 {
     std::cout << value << std::endl;
 }
+
 
 
 
@@ -262,6 +263,7 @@ void redBlackTrees::redBlackTree<T>::insert(T n) {
     if (is_root_null())
     {
         root= std::make_shared<redBlackTreeNode>(n);
+		root->color = BLACK;
     }
     else
     {
@@ -274,9 +276,13 @@ void redBlackTrees::redBlackTree<T>::insert(T n) {
                 if (currentNode->left == nullptr)
                 {
                     std::cout << "current node : "<<  currentNode->getValue() << " -> left is null ptr " << std::endl;
-                    currentNode->assign_left(std::make_shared<redBlackTreeNode>(n),currentNode);
+					std::shared_ptr<redBlackTreeNode> newnode = std::make_shared<redBlackTreeNode>(n);
+                    currentNode->assign_left(newnode,currentNode);
                     std::cout << "assign node left " << std::endl;
                     assigned = true;
+					insert_fix_up(newnode);
+					newnode->color = RED;
+						
                 }
                 else
                 {
@@ -293,9 +299,12 @@ void redBlackTrees::redBlackTree<T>::insert(T n) {
                 if (currentNode->right== nullptr)
                 {
                     std::cout << "current node : " << currentNode->getValue()<< " right is nullprt" <<std::endl;
-                    currentNode->assign_right(std::make_shared<redBlackTreeNode>(n),currentNode);
+					std::shared_ptr<redBlackTreeNode> newnode = std::make_shared<redBlackTreeNode>(n);
+                    currentNode->assign_right(newnode,currentNode);
                     std::cout << "assign node right" <<std::endl;
                     assigned=true;
+					newnode->color = RED;
+					insert_fix_up(newnode);
                 }
                 else
                 {
@@ -309,6 +318,83 @@ void redBlackTrees::redBlackTree<T>::insert(T n) {
 
     }
 }
+
+
+
+
+template<typename  T>
+void redBlackTrees::redBlackTree<T>::remove(T n) {
+
+	auto  item = find(root, n);
+	delete_node(item);
+}
+
+template <typename T>
+void redBlackTrees::redBlackTree<T>::insert_fix_up(std::shared_ptr<redBlackTreeNode> newItem)
+{
+	
+	while (newItem->parent.lock() != nullptr && newItem->parent.lock()->color == RED)
+	{
+		std::shared_ptr<redBlackTreeNode> np = newItem->parent.lock();
+		std::shared_ptr<redBlackTreeNode> ngp = np->parent.lock(); //has to have a Grand Pa becouse parent is red and root always is black 
+		if (np == ngp->left)
+		{
+			auto y = ngp->right;
+			if (y!= nullptr  &&y->color == RED)
+			{
+				np->color = BLACK;
+				y->color = BLACK;
+				ngp->color = RED;
+				newItem = ngp;
+			}
+			else
+			{
+				if (np->right!=nullptr && newItem== np->right)
+				{
+					newItem = np;
+					left_rotate(newItem);
+				}
+				auto tp = newItem->parent.lock();
+				tp->color = BLACK;
+				auto tgp = tp->parent.lock();
+				tgp->color = RED;
+				right_rotate(tgp);
+			}
+		}
+		else
+		{
+
+			auto y = ngp->left;
+			if (y != nullptr && y->color == RED)
+			{
+				np->color = BLACK;
+				y->color = BLACK;
+				ngp->color = RED;
+				newItem = ngp;
+			}
+			else
+			{
+				if (np->left!=nullptr && newItem == np->left)
+				{
+					newItem = np;
+					right_rotate(newItem);
+				}
+				auto tp = newItem->parent.lock();
+				tp->color = BLACK;
+				auto tgp = tp->parent.lock();
+				tgp->color = RED;
+				left_rotate(tgp);
+			}
+			
+		}
+		
+	}
+
+
+
+	root->color = BLACK;
+}
+
 
 template<typename  T>
 void redBlackTrees::redBlackTree<T>::print_in_order()
@@ -408,9 +494,7 @@ void redBlackTrees::redBlackTree<T>::right_rotate(std::shared_ptr<redBlackTreeNo
 
 
 template<typename T>
-auto
-redBlackTrees::redBlackTree<T>::find(std::shared_ptr<redBlackTrees::redBlackTree<T>::redBlackTreeNode> current_node, T item)
--> decltype(current_node)
+std::shared_ptr<typename redBlackTrees::redBlackTree<T>::redBlackTreeNode> redBlackTrees::redBlackTree<T>::find(std::shared_ptr<typename redBlackTrees::redBlackTree<T>::redBlackTreeNode> current_node, T item) //-> decltype(current_node)
 {
 
 
@@ -434,90 +518,181 @@ redBlackTrees::redBlackTree<T>::find(std::shared_ptr<redBlackTrees::redBlackTree
     }
 }
 
-template<typename T>
-void redBlackTrees::redBlackTree<T>::test_rotate(T item) {
-    std::shared_ptr<redBlackTrees::redBlackTree<T>::redBlackTreeNode> node = find(root, item);
-    std::cout << "se encontrol el node" << std::endl;
-    if (node == nullptr) {
-        std::cout << "el node es nulo" << std::endl;
-    }
-    else {
 
+template <typename T>
+std::shared_ptr<typename redBlackTrees::redBlackTree<T>::redBlackTreeNode> redBlackTrees::redBlackTree<T>::get_minimum(std::shared_ptr<redBlackTreeNode> node)
+{
+	if (node->left != nullptr)
+		return	get_minimum(node->left);
+	else
+		return node;
 
-
-        std::cout << "node value : " << node->getValue() << std::endl;
-
-        if (node ->left== nullptr)
-            std::cout << "the node left is nullptr before rotate to left " << std::endl;
-        else
-            std::cout << "the node left before rotate is " << node -> left -> getValue() << std::endl;
-
-        left_rotate(node);
-
-        auto parent = node->parent.lock();
-
-        if (parent == nullptr)
-            std::cout << "Parent after rotate is null" << std::endl;
-        else
-            std::cout << "Parent after rotate : " << parent->getValue() << std::endl;
-
-        if (node->left!= nullptr)
-        {
-            std::cout<<"left from rotated node : " << node->left->getValue() << std::endl;
-        }
-
-    }
-
-
-
+	
 }
 
 
 
+template<typename T>
+void redBlackTrees::redBlackTree<T>::transplant(std::shared_ptr<redBlackTreeNode> u, std::shared_ptr<redBlackTreeNode> v)
+{
+	if (u->parent.lock() == nullptr)
+	{
+		this->root = v;
+		//remove old parent
+		v->parent = std::shared_ptr<redBlackTreeNode>();
+	}
+	else
+	{
+		auto p = u->parent.lock();
+		if (u == p->left)
+		{
+			p->assign_left(v, p);
+		}
+		else
+		{
+			p->assign_right(v,p);
+		}
+	}
+}
 
 template<typename T>
-void redBlackTrees::redBlackTree<T>::test_rotate2(T item) {
-    std::shared_ptr<redBlackTrees::redBlackTree<T>::redBlackTreeNode> node = find(root, item);
-    std::cout << "se encontrol el node" << std::endl;
-    if (node == nullptr) {
-        std::cout << "el node es nulo" << std::endl;
-    }
-    else {
+void redBlackTrees::redBlackTree<T>::delete_node(std::shared_ptr<redBlackTreeNode> deleteItem)
+{
+	auto y = deleteItem;
+	auto yoriginalColor=  y->color;
+	auto mparent = deleteItem->parent.lock();
+	std::shared_ptr<redBlackTreeNode> x= std::shared_ptr<redBlackTreeNode>();
+	if (deleteItem->left == nullptr)
+	{
+		x = deleteItem->right;
+		transplant(deleteItem, deleteItem->right);
+	}
+	else if (deleteItem->right == nullptr)
+	{
+		x = deleteItem->left;
+		transplant(deleteItem, deleteItem->left);
+	}
+	else
+	{
+		y = get_minimum(deleteItem->right);
+		yoriginalColor = y->color;
+		x = y->right;
+		if (y->parent.lock() ==deleteItem)
+		{
+			x->parent = y;
+		}
+		else
+		{
+			transplant(y, y->right);
+			y->assign_right(deleteItem->right,y);
+		}
+		transplant(deleteItem, y);
+		y->assign_left(deleteItem->left,y);
+		y->color = deleteItem->color;				
+	}
+
+	if (yoriginalColor== BLACK)
+	{
+		delete_fix_up(x, mparent);
+	}
+
+}
+
+template<typename T>
+void redBlackTrees::redBlackTree<T>::delete_fix_up(std::shared_ptr<redBlackTreeNode> x, std::shared_ptr<redBlackTreeNode> xparent)
+{
+	while (x!=root && (x == nullptr || x->color == BLACK))
+	{
+		if (x!=nullptr)
+		{
+			xparent = x->parent.lock();
+		}
+
+		if (x == xparent->left)
+		{
+			auto w = xparent->right;
+			if (w->color==RED)
+			{
+				w->color = BLACK;
+				xparent->color = RED;
+				left_rotate(xparent);
+				w = xparent->right;
+			}
+
+			if ((w->left == nullptr || w->left->color == BLACK) && (w->right == nullptr || w->right->color == BLACK))
+			{
+				w->color = RED;
+				x = xparent;
+			}
+			else
+			{
+				if (w->right == nullptr || w->right->color == BLACK)
+				{
+					if (w->left != nullptr)
+					{
+						w->left->color = BLACK;
+					}
+					w->color = RED;
+					right_rotate(w);
+					w = xparent->right;
+				}
+
+				w->color = xparent->color;
+				xparent->color = BLACK;
+				if (w->right != nullptr)
+				{
+					w->right->color = BLACK;
+				}
+				left_rotate(xparent);
+				x = root;
+			}
+		}
+		else
+		{
+
+			auto w = xparent->left;
+			if (w->color == RED)
+			{
+				w->color = BLACK;
+				x->parent.lock()->color = RED;
+				right_rotate(xparent);
+				w = xparent->left;
+			}
+
+			if ((w->right == nullptr || w->right->color == BLACK) && (w->left== nullptr || w->left->color == BLACK))
+			{
+				w->color = RED;
+				x = xparent;
+			}
+			else
+			{
+				if (w->left == nullptr || w->left->color == BLACK)
+				{
+					if (w->right != nullptr)
+					{
+						w->right->color = BLACK;
+					}
+					w->color = RED;
+					left_rotate(w);
+					w = xparent->right;
+				}
+
+				w->color = xparent->color;
+				xparent->color = BLACK;
+				if (w->left!= nullptr)
+				{
+					w->left->color = BLACK;
+				}
+				right_rotate(xparent);
+				x = root;
+			}
+			
+		}
+		
+	}
 
 
-
-        std::cout << "node value : " << node->getValue() << std::endl;
-
-        auto p2 = node->parent.lock();
-
-        if (p2!= nullptr)
-            std::cout<<"********* the parent before rotate *******" << p2->getValue() << std::endl;
-        else
-            std::cout << "****** Parent Null ERROR "<<std::endl;
-
-        if (node ->right== nullptr)
-            std::cout << "the node right is nullptr before rotate to right " << std::endl;
-        else
-            std::cout << "the node right before rotate is " << node -> right-> getValue() << std::endl;
-
-        right_rotate(node);
-
-        auto parent = node->parent.lock();
-
-        if (parent == nullptr)
-            std::cout << "Parent after rotate is null" << std::endl;
-        else
-            std::cout << "Parent after rotate : " << parent->getValue() << std::endl;
-
-        if (node->left!= nullptr)
-        {
-            std::cout<<"****  left from rotated node : " << node->left->getValue() << std::endl;
-        }
-
-    }
-
-
-
+	x->color = BLACK;
 }
 
 #endif //REDBLACKTREESDEMO_REDBLACKTREEITEM_H
